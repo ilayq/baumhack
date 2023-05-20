@@ -9,11 +9,11 @@ import csv
 def download_csv() -> None:
     try:
         if os.path.exists('data.csv'):
-            wget.download(FILEURL, "data1.csv")
+            wget.download(FILEURL, out="data1.csv")
             os.remove('data.csv')
             os.rename("data1.csv", 'data.csv')
         else:
-            wget.download(FILEURL, "data.csv")
+            wget.download(FILEURL, out="data.csv")
     except Exception:
         pass
 

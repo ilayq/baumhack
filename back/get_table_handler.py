@@ -28,5 +28,5 @@ async def get_table_handler(page: int, count: int, sort: int = -1, search: str =
             except StopIteration:
                 break
     if sort > -1:
-        response.sort(key=lambda column: col[sort])
+        response.sort(key=lambda column: column[sort])
     return response
