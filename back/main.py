@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from threading import Thread
@@ -14,6 +15,15 @@ from upload_from_db_handler import upload_from_db_handler
 app = FastAPI()
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+
 @app.get('/get_table', response_class=JSONResponse)
 async def get_table(page: int, count: int, filter_: str = None, sort: bool = False):
     return await get_table_handler(page, count, filter_, sort)
@@ -23,6 +33,7 @@ async def get_table(page: int, count: int, filter_: str = None, sort: bool = Fal
 async def save_table_to_db():
     await save_to_db_handler()
     return "db.db"
+
 
 @app.post('/upload_table', response_class=JSONResponse)
 async def upload_from_db(db: UploadFile):

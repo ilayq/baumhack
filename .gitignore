@@ -1,4 +1,6 @@
-__idea__
+.idea
 __pycache__
 env
 operations.csv
+*data.csv
+*db.db
