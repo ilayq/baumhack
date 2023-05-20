@@ -2,7 +2,7 @@ from typing import List
 
 from get_csv import get_rows_from_csv
 
-
+# todo filters
 async def get_table_handler(page: int, count: int, sort: int = -1, search: str = None) -> List[List[str]]:
     iterator = get_rows_from_csv()
     response = []
