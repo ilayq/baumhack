@@ -1,3 +1,5 @@
+import os.path
+
 import wget
 
 from settings import FILEPATH, CSV_DELIMITER, FILEURL
@@ -6,6 +8,8 @@ import csv
 
 def download_csv() -> None:
     try:
+        if os.path.exists('data.csv'):
+            os.remove('data.csv')
         wget.download(FILEURL, "data.csv")
     except Exception:
         pass
