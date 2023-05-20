@@ -14,6 +14,20 @@ from upload_from_db_handler import upload_from_db_handler
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+    "localhost:3000"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +40,7 @@ app.add_middleware(
 
 @app.get('/get_table', response_class=JSONResponse)
 async def get_table(page: int, count: int, filter_: str = None, sort: bool = False):
-    return await get_table_handler(page, count, filter_, sort)
+    return "{" + str(await get_table_handler(page, count, filter_, sort)) + "}"
 
 
 @app.get('/save_table', response_class=FileResponse)
@@ -49,6 +63,6 @@ def update_func():
 
 
 if __name__ == '__main__':
-    update_thread = Thread(target=update_func)
-    update_thread.start()
+    # update_thread = Thread(target=update_func)
+    # update_thread.start()
     uvicorn.run("main:app", reload=True)
