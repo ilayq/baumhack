@@ -14,11 +14,6 @@ from upload_from_db_handler import upload_from_db_handler
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "localhost:3000"
-]
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -63,6 +58,6 @@ def update_func():
 
 
 if __name__ == '__main__':
-    # update_thread = Thread(target=update_func)
-    # update_thread.start()
+    update_thread = Thread(target=update_func)
+    update_thread.start()
     uvicorn.run("main:app", reload=True)
