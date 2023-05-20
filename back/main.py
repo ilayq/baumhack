@@ -1,9 +1,9 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from threading import Thread
+from multiprocessing import Process
 import time
 
 from get_csv import download_csv
@@ -25,8 +25,9 @@ app.add_middleware(
 
 
 @app.get('/get_table', response_class=JSONResponse)
-async def get_table(page: int, count: int, filter_: str = None, sort: int = -1):
-    return await get_table_handler(page, count, filter_, sort)
+async def get_table(page: int, count: int,
+                    sort: int = -1, search: str = None):
+    return await get_table_handler(page, count, sort, search)
 
 
 @app.get('/save_table', response_class=FileResponse)
@@ -49,6 +50,7 @@ def update_func():
 
 
 if __name__ == '__main__':
-    update_thread = Thread(target=update_func)
+    update_thread = Process(target=update_func)
     update_thread.start()
     uvicorn.run("main:app", reload=True)
+    update_thread.terminate()

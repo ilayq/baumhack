@@ -3,10 +3,10 @@ from typing import List
 from get_csv import get_rows_from_csv
 
 
-async def get_table_handler(page: int, count: int, filter_: str = None, sort: int = -1) -> List[List[str]]:
+async def get_table_handler(page: int, count: int, sort: int = -1, search: str = None) -> List[List[str]]:
     iterator = get_rows_from_csv()
     response = []
-    if not filter_:
+    if not search:
         try:
             for _ in range((page - 1) * count):
                 next(iterator)
@@ -20,7 +20,7 @@ async def get_table_handler(page: int, count: int, filter_: str = None, sort: in
             try:
                 row = next(iterator)
                 for col in row:
-                    if filter_ in col:
+                    if search in col:
                         if yielded >= (page - 1) * count:
                             response.append(row)
                         yielded += 1

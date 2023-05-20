@@ -24,6 +24,3 @@ async def upload_from_db_handler(file):
     with open("db.db", "ab") as db:
         db.writelines(file.file.readlines())
     await write_to_csv()
-
-
-# TODO FILTERS, SORTS
