@@ -3,7 +3,7 @@ from typing import List
 from get_csv import get_rows_from_csv
 
 
-async def get_table_handler(page: int, count: int, filter_: str = None, sort: bool = False) -> List[List[str]]:
+async def get_table_handler(page: int, count: int, filter_: str = None, sort: int = -1) -> List[List[str]]:
     iterator = get_rows_from_csv()
     response = []
     if not filter_:
@@ -27,6 +27,6 @@ async def get_table_handler(page: int, count: int, filter_: str = None, sort: bo
                         break
             except StopIteration:
                 break
-    if sort:
-        response.sort()
+    if sort > -1:
+        response.sort(key=lambda column: col[sort])
     return response

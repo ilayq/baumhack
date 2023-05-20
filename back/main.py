@@ -24,18 +24,9 @@ app.add_middleware(
 )
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
-
-
 @app.get('/get_table', response_class=JSONResponse)
-async def get_table(page: int, count: int, filter_: str = None, sort: bool = False):
-    return "{" + str(await get_table_handler(page, count, filter_, sort)) + "}"
+async def get_table(page: int, count: int, filter_: str = None, sort: int = -1):
+    return await get_table_handler(page, count, filter_, sort)
 
 
 @app.get('/save_table', response_class=FileResponse)

@@ -2,7 +2,6 @@ import os.path
 import csv
 from settings import CSV_DELIMITER
 
-from typing import List
 
 from db.models import CityORM
 from db.engine import engine
@@ -19,10 +18,12 @@ async def write_to_csv():
             writer.writerow(row)
 
 
-
 async def upload_from_db_handler(file):
     if os.path.exists("db.db"):
         os.remove("db.db")
     with open("db.db", "ab") as db:
         db.writelines(file.file.readlines())
     await write_to_csv()
+
+
+# TODO FILTERS, SORTS
