@@ -9,7 +9,6 @@ from sqlalchemy import select
 
 
 async def write_to_csv():
-    Base.metadata.create_all(engine)
     query = select(CityORM)
     with engine.connect() as db, open('data.csv', 'w', newline='') as file:
         for row in db.execute(query).all():
@@ -20,7 +19,6 @@ async def write_to_csv():
 
 
 async def upload_from_db_handler(file):
-    Base.metadata.drop_all(engine)
-    with open("db.db", "ab") as db:
+    with open("downloaded_db.db", "ab") as db:
         db.writelines(file.file.readlines())
     await write_to_csv()

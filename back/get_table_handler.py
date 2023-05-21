@@ -58,16 +58,7 @@ async def get_table_handler(page: int, count: int,
     if sort > -1:
         all_rows.sort(key=lambda element: element[sort], reverse=reverse)
     if search:
-        pop_c = 0
-        for i in range(len(all_rows)):
-            f = False
-            for j in range(len(all_rows[i])):
-                if search in all_rows[i][j]:
-                    f = True
-                    break
-            if not f:
-                all_rows.pop(i-pop_c)
-                pop_c += 1
+        all_rows = list(filter(lambda element: search in element, all_rows))
     if filters:
         for filt in filters.filters:
             if filt.filter_ == 'l':
