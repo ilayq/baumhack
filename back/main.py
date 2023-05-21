@@ -6,6 +6,7 @@ import uvicorn
 from multiprocessing import Process
 import time
 
+from Filter import FilterList
 from get_csv import download_csv
 from get_table_handler import get_table_handler
 from save_to_db_handler import save_to_db_handler
@@ -24,10 +25,11 @@ app.add_middleware(
 )
 
 
-@app.get('/get_table', response_class=JSONResponse)
+@app.post('/get_table', response_class=JSONResponse)
 async def get_table(page: int, count: int,
-                    sort: int = -1, search: str = None):
-    return await get_table_handler(page, count, sort, search)
+                    sort: int = -1, search: str = None, reverse: bool = False,
+                    filters: FilterList = None):
+    return await get_table_handler(page, count, sort, reverse, search, filters)
 
 
 @app.get('/save_table', response_class=FileResponse)
