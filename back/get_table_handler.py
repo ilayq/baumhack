@@ -1,4 +1,7 @@
 from typing import List
+
+import pydantic
+
 from Filter import FilterList
 from get_csv import get_rows_from_csv
 
@@ -51,9 +54,15 @@ from get_csv import get_rows_from_csv
 #         response.sort(key=lambda column: column[sort], reverse=reverse)
 #     return response
 
+
+class Response(pydantic.BaseModel):
+    rows: int
+    data: List[List[str]]
+
+
 async def get_table_handler(page: int, count: int,
                             sort: int = -1, reverse: bool = False, search: str = None,
-                            filters: FilterList = None) -> List[List[str]]:
+                            filters: FilterList = None) -> Response:
     all_rows = list(get_rows_from_csv())
     if sort > -1:
         all_rows.sort(key=lambda element: element[sort], reverse=reverse)
@@ -74,4 +83,4 @@ async def get_table_handler(page: int, count: int,
     response = []
     for idx in range((page - 1) * count, min(len(all_rows), page*count)):
         response.append(all_rows[idx])
-    return response
+    return Response(rows=len(all_rows), data=response)
