@@ -1,22 +1,16 @@
-from sqlalchemy.orm import Session
-
 import os
 import datetime
 
 from get_csv import get_rows_from_csv
-from db.engine import engine
+from db.engine import engine, Session
 from db.models import CityORM, Base
 
 
 async def save_to_db_handler():
-    if os.path.exists("db.db"):
-        os.remove("db.db")
-    if os.path.exists("db.db-journal"):
-        os.remove("db.db-journal")
-
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
-    with Session(engine) as db:
+    with Session() as db:
         c = 0
         for row in get_rows_from_csv():
             print(row, c)

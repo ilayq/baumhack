@@ -35,7 +35,9 @@ async def get_table(page: int, count: int,
 @app.get('/save_table', response_class=FileResponse)
 async def save_table_to_db():
     await save_to_db_handler()
-    return "db.db"
+    return FileResponse("db.db",
+                        media_type="application/octet-stream",
+                        filename="db.db")
 
 
 @app.post('/upload_table', response_class=JSONResponse)
@@ -48,7 +50,7 @@ def update_func():
     while 1:
         print("updating")
         download_csv()
-        time.sleep(60)
+        time.sleep(600)
 
 
 if __name__ == '__main__':

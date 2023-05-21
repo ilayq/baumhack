@@ -23,6 +23,7 @@ def get_rows_from_csv():
         reader = csv.reader(file, delimiter=CSV_DELIMITER)
         for row in reader:
             yield row
+        file.close()
 
 
 if __name__ == '__main__':
